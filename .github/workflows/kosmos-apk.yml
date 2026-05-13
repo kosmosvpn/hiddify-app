@@ -12,6 +12,13 @@ on:
       - 'lib/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
+      - 'Makefile'
+      - 'dependencies.properties'
+
+env:
+  IS_GITHUB_ACTIONS: 1
+  CHANNEL: dev
+  SENTRY_DSN: ""
 
 jobs:
   build-android-debug-apk:
@@ -19,29 +26,45 @@ jobs:
 
     steps:
       - name: Download project
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
+        uses: actions/checkout@v6
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v2.21.0
         with:
-          flutter-version: '3.41.9'
+          flutter-version: '3.38.5'
           channel: 'stable'
           cache: true
 
       - name: Check Flutter version
         run: flutter --version
 
-      - name: Install project dependencies
-        run: flutter pub get
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Clean disk space
+        run: |
+          df -h
+          sudo rm -rf /usr/share/dotnet || true
+          sudo rm -rf /opt/ghc || true
+          sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+          sudo apt-get autoremove -y || true
+          sudo apt-get clean || true
+          df -h
+
+      - name: Install Hiddify Android dependencies
+        run: make android-apk-install-deps
+
+      - name: Prepare Hiddify Android project
+        run: make android-apk-prepare
 
       - name: Build debug APK
-        run: flutter build apk --debug
+        run: flutter build apk --debug --target lib/main.dart --dart-define=sentry_dsn=""
 
       - name: Show APK files
         run: ls -R build/app/outputs/flutter-apk
