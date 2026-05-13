@@ -2,6 +2,16 @@ name: Kosmos APK Debug
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - kosmos-design
+    paths:
+      - '.github/workflows/kosmos-apk.yml'
+      - 'android/**'
+      - 'assets/**'
+      - 'lib/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
 
 jobs:
   build-android-debug-apk:
