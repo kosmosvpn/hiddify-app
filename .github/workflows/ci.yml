@@ -1,5 +1,7 @@
 name: CI
+
 on:
+  workflow_dispatch:
   pull_request:
     paths-ignore:
       - '**.md'
@@ -9,10 +11,11 @@ on:
       - 'appcast.xml'
   push:
     branches:
-       - main
-       - dev
-       - android-fix-action-bug
-       - new-design-v2 
+      - main
+      - dev
+      - android-fix-action-bug
+      - new-design-v2
+      - kosmos-design
     paths-ignore:
       - '**.md'
       - 'docs/**'
@@ -28,7 +31,3 @@ jobs:
     uses: ./.github/workflows/build.yml
     secrets: inherit
     permissions: write-all
-    if: "${{!contains(github.event.head_commit.message, 'release: version')}}"
-    with:
-      upload-artifact: ${{ github.event_name == 'push' }}
-      
