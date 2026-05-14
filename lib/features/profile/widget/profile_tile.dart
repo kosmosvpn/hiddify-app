@@ -250,40 +250,15 @@ class ProfileActionsMenu extends HookConsumerWidget {
           },
         ),
       AdaptiveMenuItem(
-        title: t.common.share,
-        icon: AdaptiveIcon(context).share,
-        subItems: [
-          if (profile case RemoteProfileEntity(:final url, :final name)) ...[
-            AdaptiveMenuItem(
-              title: t.pages.profiles.share.urlToClipboard,
-              onTap: () async {
-                final link = LinkParser.generateSubShareLink(url, name);
-                if (link.isNotEmpty) {
-                  await Clipboard.setData(ClipboardData(text: link));
-                  if (context.mounted) {
-                    ref
-                        .read(inAppNotificationControllerProvider)
-                        .showSuccessToast(t.common.msg.export.clipboard.success);
-                  }
-                }
-              },
-            ),
-            AdaptiveMenuItem(
-              title: t.pages.profiles.share.showUrlQr,
-              onTap: () async {
-                final link = LinkParser.generateSubShareLink(url, name);
-                if (link.isNotEmpty) {
-                  await ref.read(dialogNotifierProvider.notifier).showQrCode(link, message: name);
-                }
-              },
-            ),
-          ],
-          AdaptiveMenuItem(
-            title: t.pages.profiles.share.jsonToClipboard,
-            onTap: () async => await ref.read(profilesNotifierProvider.notifier).exportConfigToClipboard(profile),
-          ),
-        ],
-      ),
+  icon: Icons.help_outline_rounded,
+  title: t.pages.about.title,
+  onTap: () async {
+    await launchUrl(
+      Uri.parse('https://vpnspacekpot.ru/cabinet/help'),
+      mode: LaunchMode.externalApplication,
+    );
+  },
+),
       AdaptiveMenuItem(
         icon: Icons.edit_rounded,
         title: t.common.edit,
