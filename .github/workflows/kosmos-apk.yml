@@ -66,12 +66,22 @@ jobs:
       - name: Build debug APK
         run: flutter build apk --debug --target lib/main.dart --dart-define=sentry_dsn=""
 
-      - name: Show APK files
-        run: ls -R build/app/outputs/flutter-apk
+      - name: Rename APK
+        run: |
+          mkdir -p output
+          cp build/app/outputs/flutter-apk/app-debug.apk output/Kosmos-VPN-debug.apk
+          ls -lh output/
 
-      - name: Upload APK
+      - name: Upload APK to GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: Kosmos-VPN-debug-apk
-          path: build/app/outputs/flutter-apk/*.apk
+          path: output/Kosmos-VPN-debug.apk
           retention-days: 7
+
+      - name: Send APK to Telegram
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument" \
+            -F chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -F document="@output/Kosmos-VPN-debug.apk" \
+            -F caption="🚀 Новая сборка Космос VPN готова"
