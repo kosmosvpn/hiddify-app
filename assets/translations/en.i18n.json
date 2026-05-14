@@ -173,7 +173,7 @@
       "shareAppLogs": "Share app logs"
     },
     "about": {
-      "title": "About",
+      "title": "Help",
       "notAvailableMsg": "Already using the latest version",
       "checkForUpdate": "Check for update",
       "openWorkingDir": "Open working directory",
