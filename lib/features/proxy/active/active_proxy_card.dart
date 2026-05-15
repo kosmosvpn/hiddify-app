@@ -116,7 +116,11 @@ class ActiveProxyFooter extends ConsumerWidget with InfraLogger {
   }
 }
 
-String getRealOutboundTag(OutboundInfo group) {
+String getRelOutboundTag(OutboundInfo group) {
+  if (group.tagDisplay == "balance" || group.groupSelectedTagDisplay == "round-robin") {
+    return "Авто-выбор сервера";
+  }
+
   var tag = group.tagDisplay;
   if (group.groupSelectedTagDisplay != "" && group.groupSelectedTagDisplay != tag) {
     tag = "$tag → ${group.groupSelectedTagDisplay}";
