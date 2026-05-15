@@ -54,8 +54,8 @@ jobs:
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - name: Install Hiddify Android dependencies
-        run: make android-apk-install-dependencies
+      - name: Install project dependencies
+  run: flutter pub get
 
       - name: Prepare Hiddify Android project
         run: make android-apk-prepare
