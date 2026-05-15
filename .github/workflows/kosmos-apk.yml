@@ -28,6 +28,16 @@ jobs:
       - name: Download project
         uses: actions/checkout@v4
 
+      - name: Decode Android keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/kosmos-vpn-release.jks
+          cat > android/key.properties <<EOF
+storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+storeFile=kosmos-vpn-release.jks
+EOF
+
       - name: Clean disk space
         run: |
           sudo rm -rf /usr/share/dotnet
