@@ -79,7 +79,7 @@ class ActiveProxyFooter extends ConsumerWidget with InfraLogger {
                     label: t.pages.proxies.activeProxy,
                     child: Text(
                       // getRealOutboundTag(activeProxy),
-                      activeProxy.tagDisplay,
+                      getRelOutboundTag(activeProxy),
                       style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -95,7 +95,7 @@ class ActiveProxyFooter extends ConsumerWidget with InfraLogger {
                       const Spacer(),
                       Text(
                         // getRealOutboundTag(activeProxy),
-                        activeProxy.type,
+                        activeProxy.type == "Balancer" ? "Поддержка в настройках 👇" : activeProxy.type,
                         style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
