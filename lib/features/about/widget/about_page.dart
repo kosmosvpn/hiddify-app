@@ -14,6 +14,7 @@ import 'package:hiddify/features/app_update/notifier/app_update_state.dart';
 import 'package:hiddify/gen/assets.gen.dart';
 import 'package:hiddify/utils/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends HookConsumerWidget {
   const AboutPage({super.key});
@@ -47,8 +48,11 @@ class AboutPage extends HookConsumerWidget {
             _ => const Icon(FluentIcons.arrow_sync_24_regular),
           },
           onTap: () async {
-            await ref.read(appUpdateNotifierProvider.notifier).check();
-          },
+  await launchUrl(
+    Uri.parse('https://vpnspacekpot.ru/android'),
+    mode: LaunchMode.externalApplication,
+  );
+},
         ),
       if (PlatformUtils.isDesktop)
         ListTile(
