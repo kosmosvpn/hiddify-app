@@ -235,7 +235,7 @@
       "routing": {
         "title": "Маршрутизация",
         "perAppProxy": {
-          "title": "Прокси для приложений",
+          "title": "Обход для RU сервисов",
           "hideSysApps": "Скрыть системные приложения",
           "options": {
             "import": {
