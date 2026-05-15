@@ -1,4 +1,4 @@
-name: Kosmos APK Debug
+name: Kosmos APK Release
 
 on:
   workflow_dispatch:
@@ -21,12 +21,18 @@ env:
   SENTRY_DSN: ""
 
 jobs:
-  build-android-debug-apk:
+  build-android-release-apk:
     runs-on: ubuntu-latest
 
     steps:
       - name: Download project
         uses: actions/checkout@v4
+
+      - name: Clean disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2.21.0
@@ -46,13 +52,6 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Clean disk space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - name: Install project dependencies
         run: flutter pub get
